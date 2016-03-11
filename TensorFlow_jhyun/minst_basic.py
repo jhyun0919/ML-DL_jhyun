@@ -1,3 +1,6 @@
+#!/usr/bin/python
+#-*- coding: utf-8 -*-
+
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 
@@ -55,9 +58,9 @@ sess.run(init)
 # each row of batch_xs stands for each number of image(pixel data)
 # each row of batch_ys stands for its label
 for i in range(1000):
-	batch_xs, batch_ys = mnist.train.next_batch(100)
+    batch_xs, batch_ys = mnist.train.next_batch(100)
     # stochastic training
-	sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
+    sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
     
 # Do not close session at this point
 # We just finish train the model with training set

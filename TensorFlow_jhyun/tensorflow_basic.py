@@ -1,3 +1,6 @@
+#!/usr/bin/python
+#-*- coding: utf-8 -*-
+
 """
 * 어떻게 계산을 그래프화하는가.
 * 어떻게 세션(Session)에서 그래프를 실행하는가.
@@ -185,7 +188,7 @@ input2 = tf.placeholder(tf.float32)
 output = tf.mul(input1, input2)
 
 with tf.Session() as sess:
- 	print(sess.run([output], feed_dict={input1:[7.], input2:[2.]}))
+	print(sess.run([output], feed_dict={input1:[7.], input2:[2.]}))
 
 # output:
 # [array([ 14.], dtype=float32)]
