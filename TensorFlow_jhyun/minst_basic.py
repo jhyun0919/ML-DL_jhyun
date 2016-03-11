@@ -74,8 +74,8 @@ for i in range(1000):
 
 # Validation
 correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_,1))
-# tf.argmax(input, dimension, name=None)
-    # Returns: A Tensor of type int64.
+    # tf.argmax(input, dimension, name=None)
+        # Returns: A Tensor of type int64.
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 # Result should be approximately 91%.

@@ -58,8 +58,8 @@ sess.close()
 #  "with" 블록을 이용해서 Session에 들어갈 수도 있습니다. 
 # 이 경우 with 블록이 끝나면 Session이 자동으로 닫히게 됩니다.
 with tf.Session() as sess:
- 	result = sess.run([product])
- 	print(result)
+	result = sess.run([product])
+	print(result)
 
 # ==========================================================
 #
