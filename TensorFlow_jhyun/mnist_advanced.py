@@ -17,13 +17,19 @@ mnist = input_data.read_data_sets('./samples/MNIST_data', one_hot=True)
 import tensorflow as tf
 
 # Session Object
+# TensorFlow로 코드를 설계하는 방법을 훨씬 유연하게 만들어 줌
+# InteractiveSession을 사용하지 않는 경우에는 세션을 시작하고 그래프를 실행하기 전에 반드시 전체 계산 그래프를 모두 만들어야 함
 sess = tf.InteractiveSession()
 
 # Placeholders
+# 28*28 pixels -> 784
+# label for each numbers -> 10
 x = tf.placeholder(tf.float32, shape=[None, 784])
 y_ = tf.placeholder(tf.float32, shape=[None, 10])
 
 # Variables
+# W -> weight (parameters)
+# b -> bias
 W = tf.Variable(tf.zeros([784,10]))
 b = tf.Variable(tf.zeros([10]))
 
@@ -33,6 +39,9 @@ sess.run(tf.initialize_all_variables())
 # Hypothesis + Softmax
 y = tf.nn.softmax(tf.matmul(x,W) + b)
 
+# 가중치 및 편향을 만들 필요
+# 일반적으로 작은 크기의 노이즈로 가중치를 초기화해서 대칭성을 파괴하고, 그라디언트가 0이 되는 경우를 방지
+# ReLU 뉴런을 사용할 것이므로, 그것들을 약간 양수의 편향을 주어 초기화해서 "죽은 뉴런" 이 되는 것을 막는 것도 좋은 시도
 def weight_variable(shape):
     initial = tf.truncated_normal(shape, stddev=0.1)
     return tf.Variable(initial)
