@@ -1,5 +1,5 @@
 #!/usr/bin/python
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 """
 * 어떻게 계산을 그래프화하는가.
@@ -23,7 +23,7 @@ import tensorflow as tf
 matrix1 = tf.constant([[3., 3.]])
 
 # 2x1 행렬을 만드는 또 다른 Constant를 생성합니다.
-matrix2 = tf.constant([[2.],[2.]])
+matrix2 = tf.constant([[2.], [2.]])
 
 # 'matrix1'과 'matrix2'를 입력으로 받는 Matmul 연산을 생성합니다.
 # 반환값인 'product'는 행렬을 곱한 결과를 나타냅니다.
@@ -58,8 +58,8 @@ sess.close()
 #  "with" 블록을 이용해서 Session에 들어갈 수도 있습니다. 
 # 이 경우 with 블록이 끝나면 Session이 자동으로 닫히게 됩니다.
 with tf.Session() as sess:
-	result = sess.run([product])
-	print(result)
+    result = sess.run([product])
+    print(result)
 
 # ==========================================================
 #
@@ -76,6 +76,7 @@ InteractiveSession 클래스를 통해 Tensor.eval()과 Operation.run() 메소�
 
 # 대화형 TensorFlow 세션에 들어갑니다.
 import tensorflow as tf
+
 sess = tf.InteractiveSession()
 
 x = tf.Variable([1.0, 2.0])
@@ -125,14 +126,14 @@ init_op = tf.initialize_all_variables()
 
 # 그래프를 올리고 연산을 실행합니다.
 with tf.Session() as sess:
-	# 'init' 연산을 실행합니다.
-	sess.run(init_op)
-	# 'state'의 초기값을 출력합니다.
-	print(sess.run(state))
-	# 'state'를 갱신하는 연산을 실행하고 'state'를 출력합니다.
- 	for _ in range(3):
-		sess.run(update)
-		print(sess.run(state))
+    # 'init' 연산을 실행합니다.
+    sess.run(init_op)
+    # 'state'의 초기값을 출력합니다.
+    print(sess.run(state))
+    # 'state'를 갱신하는 연산을 실행하고 'state'를 출력합니다.
+    for _ in range(3):
+        sess.run(update)
+        print(sess.run(state))
 
 # 출력:
 
@@ -160,8 +161,8 @@ intermed = tf.add(input2, input3)
 mul = tf.mul(input1, intermed)
 
 with tf.Session() as sess:
-	result = sess.run([mul, intermed])
-	print(result)
+    result = sess.run([mul, intermed])
+    print(result)
 
 # 출력:
 # [array([ 21.], dtype=float32), array([ 7.], dtype=float32)]
@@ -188,7 +189,7 @@ input2 = tf.placeholder(tf.float32)
 output = tf.mul(input1, input2)
 
 with tf.Session() as sess:
-	print(sess.run([output], feed_dict={input1:[7.], input2:[2.]}))
+    print(sess.run([output], feed_dict={input1: [7.], input2: [2.]}))
 
-# output:
-# [array([ 14.], dtype=float32)]
+    # output:
+    # [array([ 14.], dtype=float32)]
