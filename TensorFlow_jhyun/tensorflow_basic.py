@@ -22,7 +22,7 @@ import tensorflow as tf
 # 생성자에 의해 반환된 값(matrix1)은 Constant 연산의 출력을 나타냅니다.
 matrix1 = tf.constant([[3., 3.]])
 
-# 2x1 행렬을 만드는 또 다른 Constant를 생성합니다.
+# 2x1 행렬을 만드는 또 다른 Constant 를 생성합니다.
 matrix2 = tf.constant([[2.], [2.]])
 
 # 'matrix1'과 'matrix2'를 입력으로 받는 Matmul 연산을 생성합니다.
@@ -56,10 +56,18 @@ print(result)
 sess.close()
 
 #  "with" 블록을 이용해서 Session에 들어갈 수도 있습니다. 
-# 이 경우 with 블록이 끝나면 Session이 자동으로 닫히게 됩니다.
+#  이 경우 with 블록이 끝나면 Session이 자동으로 닫히게 됩니다.
+
 with tf.Session() as sess:
     result = sess.run([product])
     print(result)
+
+with tf.Session() as sess:
+    with tf.device("/gpu:1"):
+        matrix1 = tf.constant([[3., 3.]])
+        matrix2 = tf.constant([[2.], [2.]])
+        product = tf.matmul(matrix1, matrix2)
+        ...
 
 # ==========================================================
 #
@@ -191,5 +199,30 @@ output = tf.mul(input1, input2)
 with tf.Session() as sess:
     print(sess.run([output], feed_dict={input1: [7.], input2: [2.]}))
 
-    # output:
-    # [array([ 14.], dtype=float32)]
+# output:
+# [array([ 14.], dtype=float32)]
+
+
+import tensorflow as tf
+
+# 변수를 0으로 초기화
+state = tf.Variable(0, name="counter")
+
+# state에 1을 더할 오퍼레이션 생성
+one = tf.constant(1)
+new_value = tf.add(state, one)
+update = tf.assign(state, new_value)
+
+# 그래프는 처음에 변수를 초기화해야 합니다. 아래 함수를 통해 init 오퍼레이션을 만듭니다.
+init_op = tf.initialize_all_variables()
+
+# 그래프를 띄우고 오퍼레이션들을 실행
+with tf.Session() as sess:
+    # 초기화 오퍼레이션 실행
+    sess.run(init_op)
+    # state의 초기 값을 출력
+    print(sess.run(state))
+    # state를 갱신하는 오퍼레이션을 실행하고, state를 출력
+    for _ in range(3):
+        sess.run(update)
+        print(sess.run(state))

@@ -1,7 +1,5 @@
 #Inspired by https://github.com/aymericdamien/TensorFlow-Examples/blob/master/examples/3%20-%20Neural%20Networks/recurrent_network.py
 import tensorflow as tf
-from tensorflow.models.rnn import rnn, rnn_cell
-
 import numpy as np
 import input_data
 
@@ -42,17 +40,19 @@ def model(X, W, B, init_state, lstm_size):
     # Each array shape: (batch_size, input_vec_size)
 
     # Make lstm with lstm_size (each input vector size)
-    lstm = rnn_cell.BasicLSTMCell(lstm_size, forget_bias=1.0)
+    lstm = tf.nn.rnn_cell.LSTMCell(lstm_size, forget_bias=1.0)
 
     # Get lstm cell output, time_step_size (28) arrays with lstm_size output: (batch_size, lstm_size)
-    outputs, _states = rnn.rnn(lstm, X_split, initial_state=init_state)
+    outputs, _states = tf.nn.rnn(lstm, X_split, initial_state=init_state)
 
     # Linear activation
     # Get the last output
     return tf.matmul(outputs[-1], W) + B, lstm.state_size # State size to initialize the stat
 
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
-trX, trY, teX, teY = mnist.train.images, mnist.train.labels, mnist.test.images, mnist.test.labels
+trX, trY, teX, teY = \
+    mnist.train.images, mnist.train.labels, \
+    mnist.test.images, mnist.test.labels
 trX = trX.reshape(-1, 28, 28)
 teX = teX.reshape(-1, 28, 28)
 
@@ -66,11 +66,11 @@ Y = tf.placeholder("float", [None, 10])
 W = init_weights([lstm_size, 10])
 B = init_weights([10])
 
-py_x, state_size = model(X, W, B, init_state, lstm_size)
+RNN_model, state_size = model(X, W, B, init_state, lstm_size)
 
-cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(py_x, Y))
+cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(RNN_model, Y))
 train_op = tf.train.RMSPropOptimizer(0.001, 0.9).minimize(cost)
-predict_op = tf.argmax(py_x, 1)
+predict_op = tf.argmax(RNN_model, 1)
 
 # Launch the graph in a session
 with tf.Session() as sess:
